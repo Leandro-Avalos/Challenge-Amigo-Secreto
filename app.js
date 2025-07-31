@@ -1,36 +1,40 @@
 let amigos = [];
-let nombreAmigo;
 let lista;
 
 function agregarAmigo() {
-    nombreAmigo = document.querySelector('#amigo').value
-    if (nombreAmigo == ''){
-        alert('Por favor, ingrese un nombre valido');
+    const input = document.querySelector('#amigo');
+    const nombreAmigo = input.value;
+    if (nombreAmigo === '') {
+        alert('Por favor, ingrese un nombre válido');
+    } else if (amigos.includes(nombreAmigo)) {
+        alert('Nombre ya ingresado, por favor ingrese otro');
+        input.value = '';
     } else {
-        document.querySelector('#amigo').value = '';
-        actualizarListaDeAmigos();
+    amigos.push(nombreAmigo);
+    input.value = '';
+    actualizarListaDeAmigos();
     }
-    console.log(nombreAmigo);
 }
 
 function actualizarListaDeAmigos() {
-        if (!amigos.includes(nombreAmigo)){
-            amigos.push(nombreAmigo);
-            lista = document.querySelector('#listaAmigos');
-            let nuevoElementoLi = document.createElement('li');
-            nuevoElementoLi.innerHTML = nombreAmigo;
-            lista.appendChild(nuevoElementoLi);
-            console.log(amigos);
-        } else {
-            alert('Nombre ya ingresado, por favor ingrese otro');
-        }
+    lista = document.querySelector('#listaAmigos');
+    lista.innerHTML = '';
+    for (i=0; i < amigos.length; i++){
+        nuevoElementoLi = document.createElement('li');
+        nuevoElementoLi.innerHTML = amigos[i];
+        lista.appendChild(nuevoElementoLi);
+        console.log(i);
     }
+    console.log(amigos);
+}
 
-function sortearAmigo(){
-    if(amigos.length >= 2 ){
-        let amigoSorteado = Math.floor(Math.random()*amigos.length);
-        console.log(amigos[amigoSorteado]);
-    } else{
-        alert(`Ingrese ${amigos.length == 0 ? 'dos nombres' : 'otro nombre'} por favor`)
+function sortearAmigo() {
+    if (amigos.length >= 2) {
+        const indice = Math.floor(Math.random() * amigos.length);
+        lista.innerHTML = '';
+        let mensajeResultado = document.querySelector('#resultado');
+        mensajeResultado.innerHTML = `El amigo sorteado es ${amigos[indice]}`
+    } else {
+        alert(`Ingrese ${amigos.length === 0 ? 'dos nombres' : 'otro nombre'} por favor`);
     }
 }
