@@ -1,5 +1,5 @@
 let amigos = [];
-let lista;
+let listaNombres;
 let nombresYaSorteados = [];
 
 function agregarAmigo() {
@@ -18,32 +18,34 @@ function agregarAmigo() {
 }
 
 function actualizarListaDeAmigos() {
-    lista = document.querySelector('#listaAmigos');
-    lista.innerHTML = '';
+    listaNombres = document.querySelector('#listaAmigos');
+    listaNombres.innerHTML = '';
     for (i=0; i < amigos.length; i++){
-        let nuevoElementoLi = document.createElement('li');
-        nuevoElementoLi.innerHTML = amigos[i];
-        lista.appendChild(nuevoElementoLi);
+        crearElementoLi('#listaAmigos' ,amigos[i])
     }
+}
+
+function crearElementoLi(selectorLista, texto){
+    let nuevoElementoLi = document.createElement('li');
+    let lista = document.querySelector(selectorLista);
+    nuevoElementoLi.innerHTML = texto;
+    lista.appendChild(nuevoElementoLi);
 }
 
 function sortearAmigo() {
     if (amigos.length >= 2) {
-        let listaResultados = document.querySelector('#resultado');
-        let nuevoElementoLi = document.createElement('li');
         const indice = Math.floor(Math.random() * amigos.length);
         console.log(indice);
         if (nombresYaSorteados.includes(amigos[indice]) && nombresYaSorteados.length < amigos.length){
             return sortearAmigo();
         } else if (nombresYaSorteados.length < amigos.length){
             nombresYaSorteados.push(amigos[indice]);
-            lista.innerHTML = '';
-            listaResultados.appendChild(nuevoElementoLi);
-            nuevoElementoLi.innerHTML = `El amigo sorteado es ${amigos[indice]}`;
+            listaNombres.innerHTML = '';
+            crearElementoLi('#resultado', `El amigo sorteado es ${amigos[indice]}`)
         } else {
             alert('Todos los amigos ya fueron sorteados, agregue más amigos para iniciar un nuevo sorteo');
             nombresYaSorteados.length = 0;
-            listaResultados.innerHTML = '';
+            document.querySelector('#resultado').innerHTML = '';
         }
     } else {
         alert(`Ingrese ${amigos.length === 0 ? 'dos nombres' : 'otro nombre'} por favor`);
